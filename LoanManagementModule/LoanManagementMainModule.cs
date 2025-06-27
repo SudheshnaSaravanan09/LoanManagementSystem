@@ -11,7 +11,7 @@ namespace LoanManagementSystem.LoanManagementModule
         {
             Console.WriteLine("Welcome to Loan Management System");
             Console.WriteLine("Choose from below options to continue...");
-            Console.WriteLine("1.ApplyLoan\n2.GetAllLoan\n3.GetLoanById\n4.LoanRepayment\n5.Exit");
+            Console.WriteLine("1.ApplyLoan\n2.GetAllLoan\n3.GetLoanById\n4.LoanRepayment\n5.GetLoanStatus\n6.Exit");
             int choice = Convert.ToInt32(Console.ReadLine());
             do
             {
@@ -30,6 +30,9 @@ namespace LoanManagementSystem.LoanManagementModule
                         LoanRepayment();
                         break;
                     case 5:
+                        GetLoanStatus();
+                        break;
+                    case 6:
                         Console.WriteLine("Exiting...");
                         break;
                     default:
@@ -66,7 +69,7 @@ namespace LoanManagementSystem.LoanManagementModule
                     Console.WriteLine("Invalid Option");
                     break;
             }
-            Loan loan = new Loan() { CustomerId = customerId, PrincipalAmount = principalAmount, InterestRate = interestRate, LoanTerm = loanTerm, LoanType = loanType};
+            Loan loan = new Loan() { CustomerId = customerId, PrincipalAmount = principalAmount, InterestRate = interestRate, LoanTerm = loanTerm, LoanType = loanType,LoanStatus = "Pending"};
             bool applyLoanStatus = loanRepository.ApplyLoan(loan);
             if (applyLoanStatus)
             {
@@ -113,6 +116,20 @@ namespace LoanManagementSystem.LoanManagementModule
             int amount = Convert.ToInt32(Console.ReadLine());
             string loanRepayment = loanRepository.LoanRepayment(loanId, amount);
         }
+        #endregion
+
+        #region GetLoanStatus
+        void GetLoanStatus()
+        {
+            Console.WriteLine("Enter LoanId: ");
+            int loanId = Convert.ToInt32(Console.ReadLine());
+            List<Loan> loanStatus = loanRepository.LoanStatus(loanId);
+            foreach(var item in loanStatus)
+            {
+                Console.WriteLine(item);
+            }
+        }
+
         #endregion
     }
 }
