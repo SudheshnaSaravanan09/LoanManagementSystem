@@ -34,15 +34,16 @@ namespace LoanManagementSystem.Repository
                 cmd.Parameters.AddWithValue("@LoanStatus", loan.LoanStatus);
                 cmd.Connection = sqlConnection;
                 sqlConnection.Open();
+                if (cmd.ExecuteNonQuery() > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
-            if (cmd.ExecuteNonQuery()>0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            
         }
         #endregion
 
@@ -117,8 +118,8 @@ namespace LoanManagementSystem.Repository
                     Loan loan = new Loan();
                     loan.LoanId = (int)reader["LoanId"];
                     loan.CustomerId = (int)reader["CustomerId"];
-                    loan.PrincipalAmount = (decimal)reader["PrincipalAmount"];
-                    loan.InterestRate = (decimal)reader["InterestRate"];
+                    loan.PrincipalAmount = (int)reader["PrincipalAmount"];
+                    loan.InterestRate = (int)reader["InterestRate"];
                     loan.LoanTerm = (int)reader["LoanTerm"];
                     loan.LoanType = (string)reader["LoanType"];
                     loan.LoanStatus = (string)reader["LoanStatus"];
@@ -138,6 +139,7 @@ namespace LoanManagementSystem.Repository
             {
                 try
                 {
+                    cmd.Parameters.Clear();
                     cmd.CommandText = "select * from Loans where LoanId = @LoanId";
                     cmd.Parameters.AddWithValue("@LoanId", loanId);
                     cmd.Connection = sqlConnection;
@@ -148,8 +150,8 @@ namespace LoanManagementSystem.Repository
                         Loan loan = new Loan();
                         loan.LoanId = (int)reader["LoanId"];
                         loan.CustomerId = (int)reader["CustomerId"];
-                        loan.PrincipalAmount = (decimal)reader["PrincipalAmount"];
-                        loan.InterestRate = (decimal)reader["InterestRate"];
+                        loan.PrincipalAmount = (int)reader["PrincipalAmount"];
+                        loan.InterestRate = (int)reader["InterestRate"];
                         loan.LoanTerm = (int)reader["LoanTerm"];
                         loan.LoanType = (string)reader["LoanType"];
                         loan.LoanStatus = (string)reader["LoanStatus"];
@@ -161,7 +163,6 @@ namespace LoanManagementSystem.Repository
                     throw new InvalidLoanException("No Such Loan Exists. Invalid LoanId");
                 }
             }
-            //sqlConnection.Close();
             return loans;
         }
         #endregion
@@ -208,7 +209,10 @@ namespace LoanManagementSystem.Repository
                     }
                     cmd.CommandText = "select CreditScore from Customers where CustomerId = @customerId";
                     cmd.Parameters.AddWithValue("@CustomerId", customerId);
-                    while (reader.Read())
+                    cmd.Connection = sqlConnection;
+                    sqlConnection.Open();
+                    SqlDataReader readers = cmd.ExecuteReader();
+                    while (readers.Read())
                     {
                         creditScore = (int)reader["CreditScore"];
                     }
@@ -226,7 +230,7 @@ namespace LoanManagementSystem.Repository
                 }
                 catch (Exception)
                 {
-                    throw new InvalidLoanException("No Such Loan Exists. Invalid LoanId");
+                    Console.WriteLine("No Such Loan Exists. Invalid LoanId");
                 }
             }
             //sqlConnection.Close();

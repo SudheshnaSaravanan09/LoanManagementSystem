@@ -9,12 +9,14 @@ namespace LoanManagementSystem.LoanManagementModule
         ILoanRepository loanRepository = new LoanRepository();
         public void Run()
         {
+            int choice = 0;
             Console.WriteLine("Welcome to Loan Management System");
             Console.WriteLine("Choose from below options to continue...");
-            Console.WriteLine("1.ApplyLoan\n2.GetAllLoan\n3.GetLoanById\n4.LoanRepayment\n5.GetLoanStatus\n6.Exit");
-            int choice = Convert.ToInt32(Console.ReadLine());
             do
             {
+                Console.WriteLine("1.ApplyLoan\n2.GetAllLoan\n3.GetLoanById\n4.LoanRepayment\n5.GetLoanStatus\n6.Exit");
+                choice = Convert.ToInt32(Console.ReadLine());
+            
                 switch (choice)
                 {
                     case 1:
@@ -49,9 +51,9 @@ namespace LoanManagementSystem.LoanManagementModule
             Console.WriteLine("Enter CustomerId: ");
             int customerId = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Enter Amount to be Borrowed: ");
-            decimal principalAmount = Convert.ToDecimal(Console.ReadLine());
+            int principalAmount = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Enter Interest Rate: ");
-            decimal interestRate = Convert.ToDecimal(Console.ReadLine());
+            int interestRate = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Enter Loan Tenure (No of Months): ");
             int loanTerm = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Choose Loan Type: ");

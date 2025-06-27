@@ -10,8 +10,8 @@ namespace LoanManagementSystem.Models
     {
         int loanId;
         int customerId;
-        decimal principalAmount;
-        decimal interestRate;
+        int principalAmount;
+        int interestRate;
         int loanTerm;
         string loanType;
         string loanStatus;
@@ -27,12 +27,12 @@ namespace LoanManagementSystem.Models
             get { return customerId; }
             set { customerId = value; }
         }
-        public decimal PrincipalAmount
+        public int PrincipalAmount
         {
             get { return  principalAmount; }
             set { principalAmount = value; }
         }
-        public decimal InterestRate
+        public int InterestRate
         {
             get { return interestRate; }
             set { interestRate = value; }
@@ -59,7 +59,7 @@ namespace LoanManagementSystem.Models
         {
 
         }
-        public Loan(int loanId, int customerId, decimal principalAmount, decimal interestRate, int loanTerm, string loanType, string loanStatus)
+        public Loan(int loanId, int customerId, int principalAmount, int interestRate, int loanTerm, string loanType, string loanStatus)
         {
             LoanId = loanId; CustomerId = customerId; PrincipalAmount = principalAmount; InterestRate = interestRate; LoanTerm = loanTerm; LoanType = loanType; LoanStatus = loanStatus;
         }
